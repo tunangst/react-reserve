@@ -4,7 +4,7 @@ import connectDb from '../../utils/connectDb';
 
 connectDb();
 
-export default async (req, res) => {
+const handleGetRequest = async (req, res) => {
     if (!req.headers.authorization) {
         return res.status(401).send('No authorization token');
     }
@@ -22,5 +22,23 @@ export default async (req, res) => {
         }
     } catch (error) {
         res.status(403).send('Invalid token');
+    }
+};
+const handlePutRequest = async (req, res) => {
+    const { _id, role } = req.body;
+    await User.findOneAndUpdate({ _id }, { role });
+    res.status(203).send('User updated');
+};
+
+export default async (req, res) => {
+    switch (req.method) {
+        case 'GET':
+            await handleGetRequest(req, res);
+            break;
+        case 'PUT':
+            await handlePutRequest(req, res);
+            break;
+        default:
+            req.status(405).send(`Method ${req.method} not allowed`);
     }
 };

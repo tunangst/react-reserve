@@ -5,7 +5,6 @@ const connection = {};
 const connectDb = async () => {
     if (connection.isConnected) {
         //use existing db connection
-        console.log('using existing connection');
     }
     //use new db connection
     const db = await mongoose.connect(process.env.MONGO_SRV, {
@@ -14,7 +13,6 @@ const connectDb = async () => {
         useNewUrlParser: true,
         useUnifiedTopology: true
     });
-    console.log('DB Connected');
 
     connection.isConnected = db.connections[0].readyState;
 };

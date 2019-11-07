@@ -32,7 +32,6 @@ export default async (req, res) => {
         const hash = await bcrypt.hash(password, 10);
         //create user
         const newUser = await new User({ name, email, password: hash }).save();
-        console.log(newUser);
         // create a cart for new user
         await new Cart({ user: newUser._id }).save();
         //create token for user
